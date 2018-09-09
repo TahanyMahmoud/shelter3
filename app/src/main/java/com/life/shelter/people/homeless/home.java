@@ -1,6 +1,9 @@
 package com.life.shelter.people.homeless;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,7 +19,8 @@ import android.view.MenuItem;
 
 public class home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+   /// private String appUrl="https://play.google.com/store/apps/details?id=com.tahany.android.x_o";
+    private String appUrl="https://play.google.com/store/apps/details?id=com.life.shelter.people.homeless";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +64,8 @@ public class home extends AppCompatActivity
             Intent it = new Intent(home.this, Account.class);
             startActivity(it);
         } else if (id == R.id.nav_about) {
-                    Intent it = new Intent(home.this, About.class);
-                    startActivity(it);
+            Intent it = new Intent(home.this, About.class);
+            startActivity(it);
         } else if (id == R.id.nav_faq) {
 
             Intent it = new Intent(home.this, FAQ.class);
@@ -80,9 +84,40 @@ public class home extends AppCompatActivity
             startActivity(it);
         } else if (id == R.id.nav_share) {
 
+            ///////// written by Tahany Mahmoud/////////////
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, appUrl);
+            startActivity(Intent.createChooser(shareIntent, "Share using"));
+
+
         } else if (id == R.id.nav_rate) {
 
+            ///////// written by Tahany Mahmoud/////////////
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(home.this);
+            dialogBuilder.setTitle("Rate Us");
+            dialogBuilder.setMessage("If you liked it, please rate it.");
+            dialogBuilder.setPositiveButton("Rate", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(appUrl));
+                    startActivity(i);
+                    dialog.dismiss();
+                }
+            });
 
+            dialogBuilder.setNegativeButton("Leave it", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialogBuilder.setNeutralButton("May be, later", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialogBuilder.create().show();
 
         }
 
